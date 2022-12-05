@@ -137,7 +137,7 @@ async function calculate() {
     let stakeAddress
     await fetch(`https://cardano-mainnet.blockfrost.io/api/v0/addresses/${address.value}`, {
         headers: {
-            'project_id': config.project_id
+            'project_id': process.env.project_id
         }
     })
     .then( res => {

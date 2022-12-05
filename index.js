@@ -114,7 +114,7 @@ traitBonuses = {
         "hawk": 7,
         "salamander": 3,
         "rope around neck": 4,
-        "sundial": 2,
+        "sundial necklace": 2,
         "monkey": 10,
         "paddle necklace": 2
     },
@@ -133,12 +133,11 @@ traitBonuses = {
 }
 
 async function calculate() {
-    
 
     let stakeAddress
     await fetch(`https://cardano-mainnet.blockfrost.io/api/v0/addresses/${address.value}`, {
         headers: {
-            'project_id': 'mainnetymMePMQFraXEvwwLOZzCKuFpV971eEJ9'
+            'project_id': config.project_id
         }
     })
     .then( res => {
@@ -217,7 +216,5 @@ async function calculate() {
     completeAmount.innerHTML = `Complete amount of $moai from all collections: ${completeAmountMoai}/day`
     console.log(`Complete amount of $moai from all collections: ${completeAmountMoai}/day`)
     console.log(address.value)
-
-
 }
 

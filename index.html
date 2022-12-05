@@ -1,0 +1,26 @@
+<html lang="en">
+<head >
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mutant Labs Staking Calculater</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src='https://unpkg.com/cbor-web'></script>
+    <script>
+        import cbor from 'cbor-web'
+    </script>
+    
+</head>
+<body>
+    <div class="address_area">
+        <input class="address" id="address" type="text" placeholder="address">
+        <button class="btn" id="btn" type="submit" onclick="calculate()"><i class="fa fa-search"></i></button>
+    </div>
+    <div class="text_area">
+        <p class="loading" id="loading">Loading...</p>
+        <p class="complete_amount" id="complete_amount">Search an address</p>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>

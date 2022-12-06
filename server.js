@@ -18,15 +18,26 @@ app.post('/address', (req, res) => {
     res.json(data)
 });
 
-app.get('/search_address/:address', async (req, res) => {
+app.get('/address/:address', async (req, res) => {
     let address = req.params.address
-    api_key = process.env.API_KEY
     let blockfrost = `https://cardano-mainnet.blockfrost.io/api/v0/addresses/${address}`
     let response = await fetch(blockfrost, {
         headers: {
-            'project_id': api_key
+            'project_id': process.env.API_KEY
         }
     })
     let data = await response.json()
     res.json(data.stake_address)
+})
+
+app.get('/assets/:asset', async (req, res) => {
+    let asset = req.params.asset
+    let blockfrost = `https://cardano-mainnet.blockfrost.io/api/v0/assets/${asset}`
+    let response = await fetch(blockfrost, {
+        headers: {
+            'project_id': process.env.API_KEY
+        }
+    })
+    let data = await response.json()
+    res.json(data.onchain_metadata)
 })

@@ -1,3 +1,5 @@
+// need to hide blockfrost api key when getting assets
+
 let completeAmount = document.getElementById("complete_amount")
 let address = document.getElementById("address")
 
@@ -139,10 +141,10 @@ async function calculate() {
     document.getElementById("loading").style.visibility = "visible"
     document.getElementById("complete_amount").innerHTML = "Finding assets"
 
-    let blockfrost = `/search_address/${address.value}`
-    let blockfrost_response = await fetch(blockfrost)
-    let blockfrost_data = await blockfrost_response.json()
-    stakeAddress = blockfrost_data
+    let blockfrost_stakeAddress = `/address/${address.value}`
+    let blockfrost_stakeAddress_response = await fetch(blockfrost_stakeAddress)
+    let blockfrost_stakeAddress_data = await blockfrost_stakeAddress_response.json()
+    stakeAddress = blockfrost_stakeAddress_data
 
 
     let mutant_labs = `https://labs-api.mutant-nft.com/stakes/assets`
@@ -170,15 +172,13 @@ async function calculate() {
         let policy = policies[moaiPolicies[i]]
         for (let j = 0; j < policy.length; j++) {
             if (i == 0) {
-                let metadata
+                
                 let asset = policy[j].asset
-                await fetch(`https://cardano-mainnet.blockfrost.io/api/v0/assets/${asset}`, {
-                    headers: {
-                        'project_id': 'mainnetymMePMQFraXEvwwLOZzCKuFpV971eEJ9'
-                    }
-                })
-                .then( res => res.json() )
-                .then( data => metadata = data.onchain_metadata);
+                let blockfrost_asset = `/assets/${asset}`
+                let blockfrost_asset_response = await fetch(blockfrost_asset)
+                let blockfrost_asset_data = await blockfrost_asset_response.json()
+                let metadata = blockfrost_asset_data
+
                 moai = 20
                 console.log(metadata)
                 for (let traitclass in traitBonuses) {

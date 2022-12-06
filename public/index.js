@@ -1,5 +1,5 @@
-let address = document.getElementById("address")
 let completeAmount = document.getElementById("complete_amount")
+let address = document.getElementById("address")
 
 address.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
@@ -132,43 +132,33 @@ traitBonuses = {
     }
 }
 
+
+
+
 async function calculate() {
+    document.getElementById("loading").style.visibility = "visible"
+    document.getElementById("complete_amount").innerHTML = "Finding assets"
 
-    let stakeAddress
-    await fetch(`https://cardano-mainnet.blockfrost.io/api/v0/addresses/${address.value}`, {
-        headers: {
-            'project_id': process.env.project_id
-        }
-    })
-    .then( res => {
-        if (res.ok) {
-            return res.json();
-        }
-        throw new Error("Something went wrong");
-    })
-    .then( data => {
-        document.getElementById("loading").style.visibility = "visible"
-        document.getElementById("complete_amount").innerHTML = "Searching address"
-        stakeAddress = data.stake_address
-    })
-    .catch( error => {
-        document.getElementById("complete_amount").innerHTML = "Not an address, please paste an address"
-        console.log(error)
-    })
+    let blockfrost = `/search_address/${address.value}`
+    let blockfrost_response = await fetch(blockfrost)
+    let blockfrost_data = await blockfrost_response.json()
+    stakeAddress = blockfrost_data
 
-    let policies
-    await fetch('https://labs-api.mutant-nft.com/stakes/assets', {
+
+    let mutant_labs = `https://labs-api.mutant-nft.com/stakes/assets`
+    let mutant_labs_response = await fetch(mutant_labs, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            'stakeAddress': `${stakeAddress}`
+            'stakeAddress': stakeAddress
         })
     })
-    .then( res => res.json() )
-    .then( data => policies = data[0].assetsPerPolicy );
-    
+    let mutant_labs_data = await mutant_labs_response.json()
+    let policies = mutant_labs_data[0].assetsPerPolicy
+
+
     let moaiAssociation = "66ffb6f177f1ed667fc5483615d86f2e11270e80473ee0a00e4c9931"
     let moaiFirstClassBoatTickets = "2dc673790c60ebe51294f8d8c42556ebb419cc54668d910bb385216d"
     let moaiAbduction = "31b6bc76b386f81b70914c5b2f6938e85c172a61b7f50644cb0a1666"
